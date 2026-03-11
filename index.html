@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taiwan NID / ARC no. Generator</title>
+    <style>
+        :root { --primary: #4a90e2; --success: #27ae60; --bg: #f5f7fa; --dark: #2d3748; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 480px; }
+        h2 { text-align: center; color: #333; margin-bottom: 1rem; font-size: 1.4rem; }
+        .group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #555; font-size: 0.9rem; }
+        select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; outline: none; background: white; }
+        
+        /* 按鈕容器 */
+        .btn-container { display: flex; gap: 10px; margin-top: 15px; }
+        button { flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; color: white; }
+        .btn-gen { background: var(--primary); }
+        .btn-gen:hover { background: #357abd; }
+        .btn-copy { background: var(--success); }
+        .btn-copy:hover { background: #219150; }
+        button:active { transform: scale(0.98); }
+
+        .result-box { margin-top: 1.5rem; padding: 1.5rem; background: #fff; border: 2px solid #edf2f7; border-radius: 12px; text-align: center; min-height: 40px; display: flex; flex-direction: column; justify-content: center; }
+        #display-id { font-family: 'Courier New', monospace; font-size: 2.2rem; font-weight: bold; color: var(--dark); letter-spacing: 2px; }
+        .copy-note { color: var(--success); font-size: 0.85rem; margin-top: 8px; font-weight: bold; height: 1em; opacity: 0; transition: 0.3s; }
+        .footer { font-size: 0.7rem; color: #aaa; margin-top: 1.5rem; text-align: center; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>TW ID & UI No. Generator</h2>
+    
+    <div class="group">
+        <label>ID Type</label>
+        <select id="type">
+            <option value="nat">National ID (身分證)</option>
+            <option value="new">ARC UI no. (New - 2021+)</option>
+            <option value="old">ARC UI no. (Old)</option>
+        </select>
+    </div>
+
+    <div class="group">
+        <label>Region / City</label>
+        <select id="city">
+            <option value="random">--- Random Region ---</option>
+            <optgroup label="Northern Taiwan">
+                <option value="A">Taipei City (台北市) (A)</option>
+                <option value="F">New Taipei City (新北市) (F)</option>
+                <option value="H">Taoyuan City (桃園市) (H)</option>
+                <option value="C">Keelung City (基隆市) (C)</option>
+                <option value="O">Hsinchu City (新竹市) (O)</option>
+                <option value="J">Hsinchu County (新竹縣) (J)</option>
+                <option value="Y">Yangmingshan (陽明山) (Y)</option>
+            </optgroup>
+            <optgroup label="Central Taiwan">
+                <option value="B">Taichung City (台中市) (B)</option>
+                <option value="K">Miaoli County (苗栗縣) (K)</option>
+                <option value="N">Changhua County (彰化縣) (N)</option>
+                <option value="M">Nantou County (南投縣) (M)</option>
+                <option value="L">Taichung County (台中縣) (L)</option>
+            </optgroup>
+            <optgroup label="Southern Taiwan">
+                <option value="E">Kaohsiung City (高雄市) (E)</option>
+                <option value="D">Tainan City (台南市) (D)</option>
+                <option value="I">Chiayi City (嘉義市) (I)</option>
+                <option value="Q">Chiayi County (嘉義縣) (Q)</option>
+                <option value="P">Yunlin County (雲林縣) (P)</option>
+                <option value="T">Pingtung County (屏東縣) (T)</option>
+                <option value="R">Tainan County (台南縣) (R)</option>
+                <option value="S">Kaohsiung County (高雄縣) (S)</option>
+            </optgroup>
+            <optgroup label="Eastern Taiwan & Islands">
+                <option value="G">Yilan County (宜蘭縣) (G)</option>
+                <option value="U">Hualien County (花蓮縣) (U)</option>
+                <option value="V">Taitung County (台東縣) (V)</option>
+                <option value="W">Kinmen County (金門縣) (W)</option>
+                <option value="X">Penghu County (澎湖縣) (X)</option>
+                <option value="Z">Lianjiang County (連江縣) (Z)</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <div class="group">
+        <label>Gender</label>
+        <select id="gender">
+            <option value="random">Random Gender</option>
+            <option value="M">Male (男)</option>
+            <option value="F">Female (女)</option>
+        </select>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn-gen" onclick="generate()">Generate</button>
+        <button class="btn-copy" onclick="copyText()">Copy</button>
+    </div>
+
+    <div class="result-box">
+        <span id="display-id">--------</span>
+        <div id="copy-note" class="copy-note">✓ Copied to clipboard!</div>
+    </div>
+
+    <div class="footer">
+        For development and testing purposes only.<br>
+        Verified Modulus 10 Algorithm.
+    </div>
+</div>
+
+<script>
+    const cityMap = {
+        'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15, 'G': 16, 'H': 17, 'I': 34,
+        'J': 18, 'K': 19, 'L': 20, 'M': 21, 'N': 22, 'O': 35, 'P': 23, 'Q': 24, 'R': 25,
+        'S': 26, 'T': 27, 'U': 28, 'V': 29, 'W': 32, 'X': 30, 'Y': 31, 'Z': 33
+    };
+
+    function generate() {
+        const type = document.getElementById('type').value;
+        let city = document.getElementById('city').value;
+        const gender = document.getElementById('gender').value;
+
+        if (city === 'random') {
+            const keys = Object.keys(cityMap);
+            city = keys[Math.floor(Math.random() * keys.length)];
+        }
+
+        const n1 = cityMap[city];
+        let secondChar, streamNums, fullSeries;
+
+        if (type === 'nat') {
+            secondChar = (gender === 'M') ? 1 : (gender === 'F') ? 2 : (Math.random() < 0.5 ? 1 : 2);
+            streamNums = Array.from({length: 7}, () => Math.floor(Math.random() * 10));
+            fullSeries = [Math.floor(n1/10), n1%10, secondChar, ...streamNums];
+        } else if (type === 'new') {
+            secondChar = (gender === 'M') ? 8 : (gender === 'F') ? 9 : (Math.random() < 0.5 ? 8 : 9);
+            streamNums = Array.from({length: 7}, () => Math.floor(Math.random() * 10));
+            fullSeries = [Math.floor(n1/10), n1%10, secondChar, ...streamNums];
+        } else {
+            const isMale = (gender === 'M') || (gender === 'random' && Math.random() < 0.5);
+            const secondLetter = isMale ? (Math.random() < 0.5 ? 'A' : 'C') : (Math.random() < 0.5 ? 'B' : 'D');
+            secondChar = secondLetter;
+            const n2 = cityMap[secondLetter];
+            streamNums = Array.from({length: 7}, () => Math.floor(Math.random() * 10));
+            fullSeries = [Math.floor(n1/10), n1%10, n2%10, ...streamNums];
+        }
+
+        const weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+        let total = 0;
+        fullSeries.forEach((n, i) => total += n * weights[i]);
+        const checkSum = (10 - (total % 10)) % 10;
+        
+        const result = `${city}${secondChar}${streamNums.join('')}${checkSum}`;
+        document.getElementById('display-id').innerText = result;
+        
+        // 生成時重置提示字
+        document.getElementById('copy-note').style.opacity = '0';
+    }
+
+    function copyText() {
+        const text = document.getElementById('display-id').innerText;
+        if (text === '--------') return;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const note = document.getElementById('copy-note');
+            note.style.opacity = '1';
+            setTimeout(() => { note.style.opacity = '0'; }, 2000);
+        });
+    }
+</script>
+</body>
+</html>
