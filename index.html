@@ -46,10 +46,41 @@
             <label>Region & Gender</label>
             <div style="display: flex; gap: 10px;">
                 <select id="city" style="flex: 2;">
-                    <option value="random">Random Region</option>
-                    <option value="A">Taipei (A)</option><option value="F">New Taipei (F)</option>
-                    <option value="H">Taoyuan (H)</option><option value="B">Taichung (B)</option>
-                    <option value="D">Tainan (D)</option><option value="E">Kaohsiung (E)</option>
+                    <option value="random">--- Random Region ---</option>
+                    <optgroup label="Northern Taiwan">
+                        <option value="A">Taipei City (台北市) (A)</option>
+                        <option value="F">New Taipei City (新北市) (F)</option>
+                        <option value="H">Taoyuan City (桃園市) (H)</option>
+                        <option value="C">Keelung City (基隆市) (C)</option>
+                        <option value="O">Hsinchu City (新竹市) (O)</option>
+                        <option value="J">Hsinchu County (新竹縣) (J)</option>
+                        <option value="Y">Yangmingshan (陽明山) (Y)</option>
+                    </optgroup>
+                    <optgroup label="Central Taiwan">
+                        <option value="B">Taichung City (台中市) (B)</option>
+                        <option value="K">Miaoli County (苗栗縣) (K)</option>
+                        <option value="N">Changhua County (彰化縣) (N)</option>
+                        <option value="M">Nantou County (南投縣) (M)</option>
+                        <option value="L">Taichung County (台中縣) (L)</option>
+                    </optgroup>
+                    <optgroup label="Southern Taiwan">
+                        <option value="E">Kaohsiung City (高雄市) (E)</option>
+                        <option value="D">Tainan City (台南市) (D)</option>
+                        <option value="I">Chiayi City (嘉義市) (I)</option>
+                        <option value="Q">Chiayi County (嘉義縣) (Q)</option>
+                        <option value="P">Yunlin County (雲林縣) (P)</option>
+                        <option value="T">Pingtung County (屏東縣) (T)</option>
+                        <option value="R">Tainan County (台南縣) (R)</option>
+                        <option value="S">Kaohsiung County (高雄縣) (S)</option>
+                    </optgroup>
+                    <optgroup label="Eastern Taiwan & Islands">
+                        <option value="G">Yilan County (宜蘭縣) (G)</option>
+                        <option value="U">Hualien County (花蓮縣) (U)</option>
+                        <option value="V">Taitung County (台東縣) (V)</option>
+                        <option value="W">Kinmen County (金門縣) (W)</option>
+                        <option value="X">Penghu County (澎湖縣) (X)</option>
+                        <option value="Z">Lianjiang County (連江縣) (Z)</option>
+                    </optgroup>
                 </select>
                 <select id="gender" style="flex: 1;">
                     <option value="random">Any</option>
