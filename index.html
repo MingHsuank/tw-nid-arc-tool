@@ -7,31 +7,26 @@
     <link rel="icon" href="https://fav.farm/🇹🇼" />
     <style>
         :root { --primary: #4a90e2; --success: #27ae60; --error: #e74c3c; --bg: #f5f7fa; --dark: #2d3748; }
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; min-height: 100vh; margin: 0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; margin: 0; }
         .container { width: 100%; max-width: 500px; }
         .card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        h2 { text-align: center; color: var(--dark); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.4rem; border-left: 5px solid var(--primary); padding-left: 10px; text-align: left; }
+        h2 { color: var(--dark); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.4rem; border-left: 5px solid var(--primary); padding-left: 12px; }
         .group { margin-bottom: 1rem; }
-        label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: #666; font-size: 0.85rem; }
-        select, input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 1rem; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--primary); }
-        
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #666; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(74,144,226,0.1); }
         .btn-container { display: flex; gap: 10px; margin-top: 15px; }
         button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; color: white; }
         .btn-gen { background: var(--primary); }
         .btn-copy { background: var(--success); }
         .btn-check { background: var(--dark); width: 100%; margin-top: 10px; }
         button:hover { opacity: 0.9; transform: translateY(-1px); }
-
-        .result-display { margin-top: 1.5rem; padding: 1.2rem; background: #f8fafc; border-radius: 12px; text-align: center; border: 2px solid #edf2f7; }
-        #display-id { font-family: 'Courier New', monospace; font-size: 2rem; font-weight: bold; color: var(--dark); letter-spacing: 2px; }
-        
-        /* 驗證結果樣式 */
-        .v-result { margin-top: 15px; padding: 12px; border-radius: 10px; font-weight: bold; text-align: center; display: none; }
+        .result-display { margin-top: 1.5rem; padding: 1.5rem; background: #f8fafc; border-radius: 12px; text-align: center; border: 2px dashed #cbd5e0; }
+        #display-id { font-family: 'Courier New', monospace; font-size: 2.2rem; font-weight: bold; color: var(--dark); letter-spacing: 2px; }
+        .v-result { margin-top: 15px; padding: 15px; border-radius: 10px; font-weight: bold; text-align: center; display: none; font-size: 1.1rem; }
         .v-success { background: #dcfce7; color: var(--success); border: 1px solid var(--success); }
         .v-error { background: #fee2e2; color: var(--error); border: 1px solid var(--error); }
-
-        .footer { font-size: 0.7rem; color: #aaa; text-align: center; margin-top: 10px; }
+        .footer { font-size: 0.8rem; color: #aaa; text-align: center; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -43,8 +38,8 @@
             <label>ID Type</label>
             <select id="type">
                 <option value="nat">National ID (身分證)</option>
-                <option value="new">Resident UI (New - 新版居留證)</option>
-                <option value="old">Resident UI (Legacy - 舊版居留證)</option>
+                <option value="new">Resident UI (New 新版居留證)</option>
+                <option value="old">Resident UI (Legacy 舊版居留證)</option>
             </select>
         </div>
         <div class="group">
@@ -53,7 +48,8 @@
                 <select id="city" style="flex: 2;">
                     <option value="random">Random Region</option>
                     <option value="A">Taipei (A)</option><option value="F">New Taipei (F)</option>
-                    <option value="B">Taichung (B)</option><option value="E">Kaohsiung (E)</option>
+                    <option value="H">Taoyuan (H)</option><option value="B">Taichung (B)</option>
+                    <option value="D">Tainan (D)</option><option value="E">Kaohsiung (E)</option>
                 </select>
                 <select id="gender" style="flex: 1;">
                     <option value="random">Any</option>
@@ -63,7 +59,7 @@
         </div>
         <div class="btn-container">
             <button class="btn-gen" onclick="generate()">Generate</button>
-            <button class="btn-copy" onclick="copyText()">Copy</button>
+            <button class="btn-copy" onclick="copyText()">Copy ID</button>
         </div>
         <div class="result-display">
             <span id="display-id">--------</span>
@@ -73,52 +69,35 @@
     <div class="card">
         <h2>2. Validator</h2>
         <div class="group">
-            <label>Enter ID or UI Number to Check</label>
-            <input type="text" id="input-id" placeholder="e.g. A123456789" maxlength="10">
+            <label>Verify Identity / UI Number</label>
+            <input type="text" id="input-id" placeholder="Paste ID here (e.g. A800000014)" maxlength="10">
         </div>
-        <button class="btn-check" onclick="validate()">Verify Format</button>
+        <button class="btn-check" onclick="validate()">Run Check</button>
         <div id="v-msg" class="v-result"></div>
     </div>
-
-    <div class="footer">Built for Quality Assurance Testing | 2026</div>
+    
+    <div class="footer">TW ID Expert Tool | Internal Use Only</div>
 </div>
 
 <script>
-    const cityMap = {
-        'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15, 'G': 16, 'H': 17, 'I': 34,
-        'J': 18, 'K': 19, 'L': 20, 'M': 21, 'N': 22, 'O': 35, 'P': 23, 'Q': 24, 'R': 25,
-        'S': 26, 'T': 27, 'U': 28, 'V': 29, 'W': 32, 'X': 30, 'Y': 31, 'Z': 33
-    };
+    const cityMap = {'A':10,'B':11,'C':12,'D':13,'E':14,'F':15,'G':16,'H':17,'I':34,'J':18,'K':19,'L':20,'M':21,'N':22,'O':35,'P':23,'Q':24,'R':25,'S':26,'T':27,'U':28,'V':29,'W':32,'X':30,'Y':31,'Z':33};
 
-    // 通用檢查邏輯
     function checkAlgorithm(id) {
-        if (!/^[A-Z][A-Z0-9][0-9]{8}$/.test(id)) return false;
-        
+        id = id.toUpperCase().trim();
+        if (!/^[A-Z][A-D890-9][0-9]{8}$/.test(id)) return false;
         const chars = id.split('');
         const n1 = cityMap[chars[0]];
-        let fullSeries = [Math.floor(n1/10), n1%10];
-
-        // 處理第二碼 (如果是字母則轉數值)
+        let nums = [Math.floor(n1/10), n1%10];
         if (isNaN(chars[1])) {
-            const n2 = cityMap[chars[1]];
-            fullSeries.push(n2 % 10);
+            nums.push(cityMap[chars[1]] % 10);
         } else {
-            fullSeries.push(parseInt(chars[1]));
+            nums.push(parseInt(chars[1]));
         }
-
-        // 加入後續數字
-        for (let i = 2; i < 10; i++) {
-            fullSeries.push(parseInt(chars[i]));
-        }
-
-        const weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+        for (let i = 2; i < 10; i++) nums.push(parseInt(chars[i]));
+        const weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
         let total = 0;
-        // 只計算前10位加權 (包含拆開的縣市碼)
-        for (let i = 0; i < 10; i++) {
-            total += fullSeries[i] * weights[i];
-        }
-        
-        return (total + fullSeries[10]) % 10 === 0;
+        for (let i = 0; i < 10; i++) total += nums[i] * weights[i];
+        return (total + nums[10]) % 10 === 0;
     }
 
     function generate() {
@@ -126,54 +105,40 @@
         let city = document.getElementById('city').value;
         const gender = document.getElementById('gender').value;
         if (city === 'random') city = Object.keys(cityMap)[Math.floor(Math.random() * 26)];
-
         const n1 = cityMap[city];
-        let secondChar, streamNums, fullSeries;
-
-        if (type === 'nat') {
-            secondChar = (gender === 'M') ? 1 : (gender === 'F') ? 2 : (Math.random() < 0.5 ? 1 : 2);
-        } else if (type === 'new') {
-            secondChar = (gender === 'M') ? 8 : (gender === 'F') ? 9 : (Math.random() < 0.5 ? 8 : 9);
-        } else {
-            const isMale = (gender === 'M') || (Math.random() < 0.5);
-            secondChar = isMale ? (Math.random() < 0.5 ? 'A' : 'C') : (Math.random() < 0.5 ? 'B' : 'D');
+        let second;
+        if (type === 'nat') second = (gender==='M')?1:(gender==='F')?2:(Math.random()<0.5?1:2);
+        else if (type === 'new') second = (gender==='M')?8:(gender==='F')?9:(Math.random()<0.5?8:9);
+        else {
+            const isM = (gender==='M')||(Math.random()<0.5);
+            second = isM?(Math.random()<0.5?'A':'C'):(Math.random()<0.5?'B':'D');
         }
-
-        streamNums = Array.from({length: 7}, () => Math.floor(Math.random() * 10));
-        let base = [Math.floor(n1/10), n1%10];
-        if (isNaN(secondChar)) {
-            base.push(cityMap[secondChar] % 10);
-        } else {
-            base.push(secondChar);
-        }
-        fullSeries = base.concat(streamNums);
-
-        const weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+        const stream = Array.from({length:7},()=>Math.floor(Math.random()*10));
+        let full = [Math.floor(n1/10), n1%10, isNaN(second)?cityMap[second]%10:parseInt(second), ...stream];
+        const weights = [1,9,8,7,6,5,4,3,2,1];
         let total = 0;
-        fullSeries.forEach((n, i) => total += n * weights[i]);
-        const checkSum = (10 - (total % 10)) % 10;
-        
-        document.getElementById('display-id').innerText = `${city}${secondChar}${streamNums.join('')}${checkSum}`;
+        full.forEach((n,i)=>total+=n*weights[i]);
+        const check = (10-(total%10))%10;
+        document.getElementById('display-id').innerText = `${city}${second}${stream.join('')}${check}`;
     }
 
     function validate() {
-        const input = document.getElementById('input-id').value.toUpperCase().trim();
-        const msgBox = document.getElementById('v-msg');
-        msgBox.style.display = 'block';
-
-        if (checkAlgorithm(input)) {
-            msgBox.innerText = "✓ Valid Format";
-            msgBox.className = "v-result v-success";
+        const val = document.getElementById('input-id').value;
+        const box = document.getElementById('v-msg');
+        box.style.display = 'block';
+        if (checkAlgorithm(val)) {
+            box.innerText = "✓ Valid Format";
+            box.className = "v-result v-success";
         } else {
-            msgBox.innerText = "✘ Invalid Format";
-            msgBox.className = "v-result v-error";
+            box.innerText = "✘ Invalid Format";
+            box.className = "v-result v-error";
         }
     }
 
     function copyText() {
         const text = document.getElementById('display-id').innerText;
         if (text.includes('-')) return;
-        navigator.clipboard.writeText(text).then(() => alert("Copied: " + text));
+        navigator.clipboard.writeText(text).then(() => alert("Copied!"));
     }
 </script>
 </body>
