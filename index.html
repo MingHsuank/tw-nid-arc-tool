@@ -39,48 +39,40 @@
             <select id="type">
                 <option value="nat">National ID (身分證)</option>
                 <option value="new">Resident UI (New 新版居留證)</option>
-                <option value="old">Resident UI (Legacy 舊版居留證)</option>
+                <option value="old">Resident UI (Old 舊版居留證)</option>
             </select>
         </div>
         <div class="group">
-            <label>Region & Gender</label>
+            <label>Region & Gender (地區 & 性別)</label>
             <div style="display: flex; gap: 10px;">
                 <select id="city" style="flex: 2;">
                     <option value="random">--- Random Region ---</option>
-                    <optgroup label="Northern Taiwan">
-                        <option value="A">Taipei City (台北市) (A)</option>
-                        <option value="F">New Taipei City (新北市) (F)</option>
-                        <option value="H">Taoyuan City (桃園市) (H)</option>
-                        <option value="C">Keelung City (基隆市) (C)</option>
-                        <option value="O">Hsinchu City (新竹市) (O)</option>
-                        <option value="J">Hsinchu County (新竹縣) (J)</option>
-                        <option value="Y">Yangmingshan (陽明山) (Y)</option>
-                    </optgroup>
-                    <optgroup label="Central Taiwan">
-                        <option value="B">Taichung City (台中市) (B)</option>
-                        <option value="K">Miaoli County (苗栗縣) (K)</option>
-                        <option value="N">Changhua County (彰化縣) (N)</option>
-                        <option value="M">Nantou County (南投縣) (M)</option>
-                        <option value="L">Taichung County (台中縣) (L)</option>
-                    </optgroup>
-                    <optgroup label="Southern Taiwan">
-                        <option value="E">Kaohsiung City (高雄市) (E)</option>
-                        <option value="D">Tainan City (台南市) (D)</option>
-                        <option value="I">Chiayi City (嘉義市) (I)</option>
-                        <option value="Q">Chiayi County (嘉義縣) (Q)</option>
-                        <option value="P">Yunlin County (雲林縣) (P)</option>
-                        <option value="T">Pingtung County (屏東縣) (T)</option>
-                        <option value="R">Tainan County (台南縣) (R)</option>
-                        <option value="S">Kaohsiung County (高雄縣) (S)</option>
-                    </optgroup>
-                    <optgroup label="Eastern Taiwan & Islands">
-                        <option value="G">Yilan County (宜蘭縣) (G)</option>
-                        <option value="U">Hualien County (花蓮縣) (U)</option>
-                        <option value="V">Taitung County (台東縣) (V)</option>
-                        <option value="W">Kinmen County (金門縣) (W)</option>
-                        <option value="X">Penghu County (澎湖縣) (X)</option>
-                        <option value="Z">Lianjiang County (連江縣) (Z)</option>
-                    </optgroup>
+                    <option value="A">Taipei City (台北市) (A)</option>
+                    <option value="F">New Taipei City (新北市) (F)</option>
+                    <option value="H">Taoyuan City (桃園市) (H)</option>
+                    <option value="C">Keelung City (基隆市) (C)</option>
+                    <option value="O">Hsinchu City (新竹市) (O)</option>
+                    <option value="J">Hsinchu County (新竹縣) (J)</option>
+                    <option value="Y">Yangmingshan (陽明山) (Y)</option>
+                    <option value="B">Taichung City (台中市) (B)</option>
+                    <option value="K">Miaoli County (苗栗縣) (K)</option>
+                    <option value="N">Changhua County (彰化縣) (N)</option>
+                    <option value="M">Nantou County (南投縣) (M)</option>
+                    <option value="L">Taichung County (台中縣) (L)</option>
+                    <option value="E">Kaohsiung City (高雄市) (E)</option>
+                    <option value="D">Tainan City (台南市) (D)</option>
+                    <option value="I">Chiayi City (嘉義市) (I)</option>
+                    <option value="Q">Chiayi County (嘉義縣) (Q)</option>
+                    <option value="P">Yunlin County (雲林縣) (P)</option>
+                    <option value="T">Pingtung County (屏東縣) (T)</option>
+                    <option value="R">Tainan County (台南縣) (R)</option>
+                    <option value="S">Kaohsiung County (高雄縣) (S)</option>
+                    <option value="G">Yilan County (宜蘭縣) (G)</option>
+                    <option value="U">Hualien County (花蓮縣) (U)</option>
+                    <option value="V">Taitung County (台東縣) (V)</option>
+                    <option value="W">Kinmen County (金門縣) (W)</option>
+                    <option value="X">Penghu County (澎湖縣) (X)</option>
+                    <option value="Z">Lianjiang County (連江縣) (Z)</option>
                 </select>
                 <select id="gender" style="flex: 1;">
                     <option value="random">Any</option>
@@ -90,7 +82,7 @@
         </div>
         <div class="btn-container">
             <button class="btn-gen" onclick="generate()">Generate</button>
-            <button class="btn-copy" onclick="copyText()">Copy ID</button>
+            <button class="btn-copy" onclick="copyText()">Copy</button>
         </div>
         <div class="result-display">
             <span id="display-id">--------</span>
@@ -100,10 +92,10 @@
     <div class="card">
         <h2>2. Validator</h2>
         <div class="group">
-            <label>Verify Identity / UI Number</label>
+            <label>Verify NID / UI Number (驗證身分證/居留證號是否符合格式)</label>
             <input type="text" id="input-id" placeholder="Paste ID here (e.g. A800000014)" maxlength="10">
         </div>
-        <button class="btn-check" onclick="validate()">Run Check</button>
+        <button class="btn-check" onclick="validate()">Check</button>
         <div id="v-msg" class="v-result"></div>
     </div>
     
